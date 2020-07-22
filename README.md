@@ -1,1 +1,1 @@
-# face-recognition
+# Face recognition in images.
