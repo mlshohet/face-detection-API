@@ -55,6 +55,12 @@ app.put('/rank', (req, res) => {
 	rank.handleRank(req, res, db)
 });
 
+// API
+
+app.post('/imageURL', (req, res) => {
+	rank.handleAPICall(req, res)
+});
+
 app.listen(process.env.PORT || 3000, () => {
 	console.log(`server is up on port ${process.env.PORT}`);
 });
