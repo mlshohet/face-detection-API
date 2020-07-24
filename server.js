@@ -11,10 +11,8 @@ const rank = require('./controllers/rank');
 const db = knex ({
   client: 'pg',
   connection: {
-    host : 'postgresql-convex-21019',
-    user : 'mshohet',
-    password : '',
-    database : 'facerec'
+    host : process.env.DATABASE_URL,
+    ssl: true
   }
 });
 
