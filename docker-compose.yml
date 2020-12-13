@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+
+    # Backend API
+    facerec-api:
+       container_name: backend
+       build: ./
+       command: npm start
+       working_dir: /usr/src/facerec-api
+       environment:
+            POSTGRES_USER: sally
+            POSTGRES_PASSWORD: secret
+            POSTGRES_DB: facerec-docker
+            POSTGRES_HOST: postgres
+       ports:
+        - "3000:3000"
+       volumes:
+        - ./:/usr/src/facerec-api
+
+    #PostgreSQL
+    postgres:
+        environment:
+            POSTGRES_USER: sally
+            POSTGRES_PASSWORD: secret
+            POSTGRES_DB: facerec-docker
+            POSTGRES_HOST: postgres
+        build: ./postgres
+        ports:
+        - "5432:5432"

@@ -8,11 +8,17 @@ const signin = require('./controllers/signin');
 const profile = require('./controllers/profile');
 const rank = require('./controllers/rank');
 
+console.log("Postgress User: ", process.env.POSTGRES_USER);
 const db = knex ({
   client: 'pg',
   connection: {
-  	host: '127.0.0.1',
-  	database: 'facerec'
+  	//Docker connections
+  	host: process.env.POSTGRES_HOST,
+  	user: process.env.POSTGRES_USER,
+  	password: process.env.POSTGRES_PASSWORD,
+  	database: process.env.POSTGRES_DB
+  	// host: '127.0.0.1',
+  	// database: 'facerec'
   	// Uncomment below before Heroku deployment
     // connectionString : process.env.DATABASE_URL,
     // ssl: {
@@ -21,10 +27,10 @@ const db = knex ({
   }
 });
 
-db.select('*').from('users')
-	.then(data => {
-		console.log(data);
-	}); //KNEX created SQL command
+// db.select('*').from('users')
+// 	.then(data => {
+// 		console.log(data);
+// 	}); //KNEX created SQL command
 
 const app = express();
 app.use(bodyParser.json());
