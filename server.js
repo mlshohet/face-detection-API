@@ -13,12 +13,15 @@ const db = knex ({
   client: 'pg',
   connection: {
   	//Docker connections
-  	host: process.env.POSTGRES_HOST,
-  	user: process.env.POSTGRES_USER,
-  	password: process.env.POSTGRES_PASSWORD,
-  	database: process.env.POSTGRES_DB
-  	// host: '127.0.0.1',
-  	// database: 'facerec'
+  	// host: process.env.POSTGRES_HOST,
+  	// user: process.env.POSTGRES_USER,
+  	// password: process.env.POSTGRES_PASSWORD,
+  	// database: process.env.POSTGRES_DB
+  	
+    //This is for local host and local Postgres
+    host: '127.0.0.1',
+  	database: 'facerec'
+    
   	// Uncomment below before Heroku deployment
     // connectionString : process.env.DATABASE_URL,
     // ssl: {
@@ -42,9 +45,7 @@ app.get('/', (req, res) => {
 
 // SIGN IN
 
-app.post('/signin', (req, res) => {
-	signin.handleSignin(req, res, db, bcrypt);
-});
+app.post('/signin', signin.signinAuthentication(db, bcrypt));
 
 // REGISTER
 
@@ -55,7 +56,13 @@ app.post('/register', (req, res) => {
 // PROFILE
 
 app.get('/profile/:id', (req, res) => {
+  console.log("Get request for user");
 	profile.handleProfileGet(req, res, db)
+});
+
+app.post('/profile/:id', (req, res) => {
+  console.log("Post request for user");
+  profile.handleProfileUpdate(req, res, db)
 });
 
 // RANK
