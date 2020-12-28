@@ -8,6 +8,8 @@ const signin = require('./controllers/signin');
 const profile = require('./controllers/profile');
 const rank = require('./controllers/rank');
 
+const auth = require('./controllers/authorization');
+
 console.log("Postgress User: ", process.env.POSTGRES_USER);
 const db = knex ({
   client: 'pg',
@@ -19,14 +21,14 @@ const db = knex ({
   	// database: process.env.POSTGRES_DB
   	
     //This is for local host and local Postgres
-    host: '127.0.0.1',
-  	database: 'facerec'
+   //  host: '127.0.0.1',
+  	// database: 'facerec'
     
   	// Uncomment below before Heroku deployment
-    // connectionString : process.env.DATABASE_URL,
-    // ssl: {
-    // 	rejectUnauthorized: false
-    // }
+    connectionString : process.env.DATABASE_URL,
+    ssl: {
+    	rejectUnauthorized: false
+    }
   }
 });
 
@@ -55,25 +57,25 @@ app.post('/register', (req, res) => {
 
 // PROFILE
 
-app.get('/profile/:id', (req, res) => {
+app.get('/profile/:id', auth.requireAuth, (req, res) => {
   console.log("Get request for user");
 	profile.handleProfileGet(req, res, db)
 });
 
-app.post('/profile/:id', (req, res) => {
+app.post('/profile/:id', auth.requireAuth, (req, res) => {
   console.log("Post request for user");
   profile.handleProfileUpdate(req, res, db)
 });
 
 // RANK
 
-app.put('/rank', (req, res) => {
+app.put('/rank', auth.requireAuth, (req, res) => {
 	rank.handleRank(req, res, db)
 });
 
 // API
 
-app.post('/imageURL', (req, res) => {
+app.post('/imageURL', auth.requireAuth, (req, res) => {
 	rank.handleAPICall(req, res)
 });
 
