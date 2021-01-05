@@ -51,9 +51,7 @@ app.post('/signin', signin.signinAuthentication(db, bcrypt));
 
 // REGISTER
 
-app.post('/register', (req, res) => { 
-	register.handleRegister(req, res, db, bcrypt)
-});
+app.post('/register', register.registerAuthentication(db, bcrypt));
 
 // PROFILE
 
